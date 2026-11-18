@@ -1,4 +1,3 @@
-// Source-only installer helper; never shipped as part of the npm application.
 import assert from 'node:assert/strict';
 import { execFileSync, spawn } from 'node:child_process';
 import { createInterface } from 'node:readline';
@@ -74,7 +73,6 @@ export function sourceMarketplacePlan(root, inventory) {
   const previous = existingDirectory(sources[0]);
   if (previous && previous === realpathSync(root)) return { action: 'reuse' };
   assert(!inventory.installed.length, 'OPENMOTION_SOURCE_IN_USE: another source is installed. Reuse that installation or explicitly select its upgrade; no configuration was changed.');
-  // Rebind a vanished source only when the host positively reported no install.
   if (!previous) return { action: 'replace_uninstalled_source', previous: sources[0] };
   const catalog = JSON.parse(readFileSync(path.join(previous, '.agents/plugins/marketplace.json'), 'utf8'));
   const manifest = JSON.parse(readFileSync(path.join(previous, '.codex-plugin/plugin.json'), 'utf8'));

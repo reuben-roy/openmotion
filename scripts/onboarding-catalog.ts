@@ -7,8 +7,6 @@ import { parseArgs } from 'node:util';
 import { templateConfig } from '../shared/template-config.ts';
 
 export async function onboardingCatalog(appRoot: string, _dataDirectory?: string, templateIds = selectOnboardingTemplateIds()) {
-  // All hosts receive the same verified references, including hosts without inline cards.
-  // Preparation reads shipped source identities; it neither fetches media nor creates projects.
   const presentation = loadTemplatePresentation({ applicationRoot: appRoot,
     directory: path.join(appRoot, 'mcp-ui/template-recommendations') });
   const recommendation = showTemplateRecommendations(presentation, { templateIds, onboarding: true });

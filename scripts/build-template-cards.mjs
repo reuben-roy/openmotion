@@ -53,7 +53,6 @@ async function buildIdentity(root) {
   };
 }
 
-/** Source packaging checks freshness without importing any development runtime. */
 export async function checkTemplateCardsBuild(root = applicationRoot) {
   try {
     const saved = JSON.parse(await readFile(path.join(root, identityPath), 'utf8'));
@@ -104,8 +103,6 @@ export async function buildTemplateCards() {
   await writeFile(path.join(applicationRoot, identityPath), JSON.stringify(await buildIdentity(applicationRoot), null, 2) + '\n');
   await checkTemplateCardsBuild();
 
-  // Validate the same bytes and final JSON envelope that production will serve,
-  // including source fingerprints, media identities, metadata and the budget.
   const { loadTemplatePresentation } = await import('../shared/mcp-template-recommendations.ts');
   const presentation = loadTemplatePresentation({ directory, applicationRoot });
   const bytes = Buffer.byteLength(JSON.stringify({ jsonrpc: '2.0', id: 1, result: { contents: [presentation.content] } }));
